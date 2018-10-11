@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     geometry_msgs::PoseStamped pose;
     pose.pose.position.x = 0;
     pose.pose.position.y = 0;
-    pose.pose.position.z = 2;
+    pose.pose.position.z = 1;
 
     //send a few setpoints before starting
     for(int i = 100; ros::ok() && i > 0; --i){
@@ -73,9 +73,25 @@ int main(int argc, char **argv)
 
         local_pos_pub.publish(pose);
         
-        ///Move 1M X after 30 seconds
-        if((ros::Time::now() - last_request > ros::Duration(30.0))){
+        ///Move 1M X Forward 15 seconds after armed
+        if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(15.0))){
             pose.pose.position.x = 1;
+        }
+        ///Move 1M Y Left 30 seconds after armed
+        if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(30.0))){
+            pose.pose.position.y = 1;
+        }
+        ///Move -1M X Backward 45 seconds after armed
+        if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(45.0))){
+            pose.pose.position.y = 0;
+        }
+        ///Move 1M Y Right 60 seconds after armed
+        if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(60.0))){
+            pose.pose.position.y = 0;
+        }
+        ///Land 75 seconds after armed
+        if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(60.0))){
+            offb_set_mode.request.custom_mode = "LAND";
         }
 
         ros::spinOnce();
