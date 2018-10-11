@@ -31,6 +31,6 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/node.cpp
+#   src/${PROJECT_NAME}/px4_ros_offboard.cpp
 # )
 
