@@ -72,6 +72,11 @@ int main(int argc, char **argv)
         }
 
         local_pos_pub.publish(pose);
+        
+        ///Move 1M X after 30 seconds
+        if((ros::Time::now() - last_request > ros::Duration(30.0))){
+            pose.pose.position.x = 1;
+        }
 
         ros::spinOnce();
         rate.sleep();
