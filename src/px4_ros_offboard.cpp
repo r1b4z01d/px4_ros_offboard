@@ -76,22 +76,23 @@ int main(int argc, char **argv)
         ///Move 1M X Forward 15 seconds after armed
         if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(15.0))){
             pose.pose.position.x = 1;
+            ROS_INFO("Move Forward");
         }
         ///Move 1M Y Left 30 seconds after armed
         if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(30.0))){
             pose.pose.position.y = 1;
+            ROS_INFO("Move Left");
         }
         ///Move -1M X Backward 45 seconds after armed
         if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(45.0))){
             pose.pose.position.x = 0;
+            ROS_INFO("Move Backward");
         }
         ///Move 1M Y Right 60 seconds after armed
         if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(60.0))){
             pose.pose.position.y = 0;
-        }
-        ///Land 75 seconds after armed
-        if(current_state.armed && (ros::Time::now() - last_request > ros::Duration(60.0))){
-            offb_set_mode.request.custom_mode = "LAND";
+            ROS_INFO("Move Right");
+            last_request = ros::Time::now();
         }
 
         ros::spinOnce();
